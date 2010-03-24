@@ -58,6 +58,58 @@ module Kokopelli
       def hash
         @attributes[:id].hash
       end
+      
+      def id=(_id)
+        @attributes[:id] = _id
+      end
+      
+      def type=(_type)
+        @attributes[:type] = _type
+      end
+      
+      def source_id=(_source_id)
+        @attributes[:source_id] = _source_id
+      end
+      
+      def folder_id=(_folder_id)
+        @attributes[:folder_id] = _folder_id
+      end
+      
+      def display_seq=(_display_seq)
+        @attributes[:display_seq] = _display_seq
+      end
+      
+      def name=(_name)
+        @attributes[:name] = _name
+      end
+      
+      def url_path=(_url_path)
+        @attributes[:url_path] = _url_path
+      end
+      
+      def icon=(_icon)
+        @attributes[:icon] = _icon
+      end
+      
+      def created_at=(_created_at)
+        @attributes[:created_at] = _created_at
+      end
+      
+      def updated_at=(_updated_at)
+        @attributes[:updated_at] = _updated_at
+      end
+      
+      def starts_at=(_starts_at)
+        @attributes[:starts_at] = _starts_at
+      end
+      
+      def ends_at=(_ends_at)
+        @attributes[:ends_at] = _ends_at
+      end
+      
+      def description=(_description)
+        @attributes[:description] = _description
+      end
 
       private
 

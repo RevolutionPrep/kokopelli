@@ -1358,6 +1358,35 @@ module FakeWeb
       <results><status code="ok"/></results> },
       :set_cookie => "BREEZESESSION=na1breezaspo5qded43ka7fh;HttpOnly;domain=.acrobat.com;path=/")
     end
+    
+    def self.sco_expanded_contents_1036115664
+      FakeWeb.register_uri(:get, "https://" + KOKOPELLI[:domain] + "/api/xml?action=sco-expanded-contents&sco-id=1036115664&filter-icon=archive&session=na1breezaspo5qded43ka7fh",
+      :body => %Q{<?xml version="1.0" encoding="utf-8"?>
+      <results>
+      <status code="ok"/>
+      <expanded-scos>
+      <sco depth="1" sco-id="938088746" folder-id="938081671" type="content" icon="archive" lang="en" source-sco-id="" display-seq="0" source-sco-type="" source-sco-icon="" content-source-sco-icon="">
+      <name>Wed Mar 24 11:17:11 -0700 2010_hfxhw_0</name>
+      <url-path>/p38182167/</url-path>
+      <date-begin>2010-03-24T11:39:11.193-07:00</date-begin>
+      <date-end>2010-03-24T11:39:54.110-07:00</date-end>
+      <date-created>2010-03-24T11:39:11.193-07:00</date-created>
+      <date-modified>2010-03-24T11:39:57.387-07:00</date-modified>
+      </sco>
+      </expanded-scos>
+      </results>},
+      :set_cookie => "BREEZESESSION=na1breezaspo5qded43ka7fh;HttpOnly;domain=.acrobat.com;path=/")
+    end
+    
+    def self.sco_expanded_contents_1036115664_empty
+      FakeWeb.register_uri(:get, "https://" + KOKOPELLI[:domain] + "/api/xml?action=sco-expanded-contents&sco-id=1036115664&filter-icon=archive&session=na1breezaspo5qded43ka7fh",
+      :body => %Q{<?xml version="1.0" encoding="utf-8"?>
+      <results>
+      <status code="ok"/>
+      <expanded-scos/>
+      </results>},
+      :set_cookie => "BREEZESESSION=na1breezaspo5qded43ka7fh;HttpOnly;domain=.acrobat.com;path=/")
+    end
 
   end
 end

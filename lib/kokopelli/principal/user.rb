@@ -77,6 +77,10 @@ module Kokopelli
           nil
         end
       end
+      
+      def email=(_email)
+        @attributes[:email] = _email
+      end
 
       private
 

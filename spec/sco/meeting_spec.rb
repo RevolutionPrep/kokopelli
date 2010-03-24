@@ -334,14 +334,14 @@ describe Kokopelli::SCO::Meeting do
       FakeWeb::Mapping.build("permissions-update&acl-id=1036115664&principal-id=1035814880&permission-id=host")
       FakeWeb::Mapping.build("permissions-info&acl-id=1036115664&principal-id=1035814880")
       @meeting = Kokopelli::SCO::Meeting.new(
-      :type => "meeting",
-      :source_id => "1030182073",
-      :name => "SCO",
-      :url_path => "sco_path",
-      :icon => "meeting",
-      :starts_at => Time.parse("2010-02-04T18:03:38-08:00"),
-      :ends_at => Time.parse("2010-02-04T19:03:38-08:00"),
-      :description => "this is some description"
+        :type => "meeting",
+        :source_id => "1030182073",
+        :name => "SCO",
+        :url_path => "sco_path",
+        :icon => "meeting",
+        :starts_at => Time.parse("2010-02-04T18:03:38-08:00"),
+        :ends_at => Time.parse("2010-02-04T19:03:38-08:00"),
+        :description => "this is some description"
       )
       @meeting.save
       @host = Kokopelli::Principal::Host.new(
@@ -359,6 +359,96 @@ describe Kokopelli::SCO::Meeting do
       @host.permissions_on(@meeting).should eql(:host)
     end
 
+  end
+  
+  describe ".archives" do
+    
+    it "should return an empty array if no valid archive for this meeting exists" do
+      FakeWeb::Mapping.build("login&login=ryan.moran@gmail.com&password=revprep123")
+      FakeWeb::Mapping.build("sco-shortcuts")
+      FakeWeb::Mapping.build("sco-update&date-begin=2010-02-04T18:03:38-08:00&date-end=2010-02-04T19:03:38-08:00&description=this%20is%20some%20description&folder-id=1030182069&name=SCO&source-sco-id=1030182073&type=meeting&url-path=sco_path")
+      FakeWeb::Mapping.build("permissions-update&acl-id=1036115664&principal-id=public-access&permission-id=denied")
+      FakeWeb::Mapping.build("sco-expanded-contents&sco-id=1036115664&filter-icon=archive", :empty)
+      @meeting = Kokopelli::SCO::Meeting.new(
+        :type => "meeting",
+        :source_id => "1030182073",
+        :name => "SCO",
+        :url_path => "sco_path",
+        :icon => "meeting",
+        :starts_at => Time.parse("2010-02-04T18:03:38-08:00"),
+        :ends_at => Time.parse("2010-02-04T19:03:38-08:00"),
+        :description => "this is some description"
+      )
+      @meeting.save
+      @meeting.archives.should be_empty
+    end
+    
+    it "should return an array of valid archives if any archive exists for this meeting" do
+      FakeWeb::Mapping.build("login&login=ryan.moran@gmail.com&password=revprep123")
+      FakeWeb::Mapping.build("sco-shortcuts")
+      FakeWeb::Mapping.build("sco-update&date-begin=2010-02-04T18:03:38-08:00&date-end=2010-02-04T19:03:38-08:00&description=this%20is%20some%20description&folder-id=1030182069&name=SCO&source-sco-id=1030182073&type=meeting&url-path=sco_path")
+      FakeWeb::Mapping.build("permissions-update&acl-id=1036115664&principal-id=public-access&permission-id=denied")
+      FakeWeb::Mapping.build("sco-expanded-contents&sco-id=1036115664&filter-icon=archive")
+      @meeting = Kokopelli::SCO::Meeting.new(
+        :type => "meeting",
+        :source_id => "1030182073",
+        :name => "SCO",
+        :url_path => "sco_path",
+        :icon => "meeting",
+        :starts_at => Time.parse("2010-02-04T18:03:38-08:00"),
+        :ends_at => Time.parse("2010-02-04T19:03:38-08:00"),
+        :description => "this is some description"
+      )
+      @meeting.save
+      @meeting.archives.should_not be_empty
+      @meeting.archives.each { |archive| archive.class.should eql(Kokopelli::SCO::Archive) }
+    end
+    
+  end
+  
+  describe ".archive_url" do
+    
+    it "should return nil if .archives has no archives" do
+      FakeWeb::Mapping.build("login&login=ryan.moran@gmail.com&password=revprep123")
+      FakeWeb::Mapping.build("sco-shortcuts")
+      FakeWeb::Mapping.build("sco-update&date-begin=2010-02-04T18:03:38-08:00&date-end=2010-02-04T19:03:38-08:00&description=this%20is%20some%20description&folder-id=1030182069&name=SCO&source-sco-id=1030182073&type=meeting&url-path=sco_path")
+      FakeWeb::Mapping.build("permissions-update&acl-id=1036115664&principal-id=public-access&permission-id=denied")
+      FakeWeb::Mapping.build("sco-expanded-contents&sco-id=1036115664&filter-icon=archive", :empty)
+      @meeting = Kokopelli::SCO::Meeting.new(
+        :type => "meeting",
+        :source_id => "1030182073",
+        :name => "SCO",
+        :url_path => "sco_path",
+        :icon => "meeting",
+        :starts_at => Time.parse("2010-02-04T18:03:38-08:00"),
+        :ends_at => Time.parse("2010-02-04T19:03:38-08:00"),
+        :description => "this is some description"
+      )
+      @meeting.save
+      @meeting.archive_url.should be_nil
+    end
+    
+    it "should return a proper url if .archives contains any archives" do
+      FakeWeb::Mapping.build("login&login=ryan.moran@gmail.com&password=revprep123")
+      FakeWeb::Mapping.build("sco-shortcuts")
+      FakeWeb::Mapping.build("sco-update&date-begin=2010-02-04T18:03:38-08:00&date-end=2010-02-04T19:03:38-08:00&description=this%20is%20some%20description&folder-id=1030182069&name=SCO&source-sco-id=1030182073&type=meeting&url-path=sco_path")
+      FakeWeb::Mapping.build("permissions-update&acl-id=1036115664&principal-id=public-access&permission-id=denied")
+      FakeWeb::Mapping.build("sco-expanded-contents&sco-id=1036115664&filter-icon=archive")
+      @meeting = Kokopelli::SCO::Meeting.new(
+        :type => "meeting",
+        :source_id => "1030182073",
+        :name => "SCO",
+        :url_path => "sco_path",
+        :icon => "meeting",
+        :starts_at => Time.parse("2010-02-04T18:03:38-08:00"),
+        :ends_at => Time.parse("2010-02-04T19:03:38-08:00"),
+        :description => "this is some description"
+      )
+      @meeting.save
+      @meeting.archive_url.should_not be_nil
+      @meeting.archive_url.should eql("http://" + KOKOPELLI[:domain] + "/p38182167/")
+    end
+    
   end
 
 end

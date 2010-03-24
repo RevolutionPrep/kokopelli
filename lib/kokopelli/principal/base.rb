@@ -56,6 +56,42 @@ module Kokopelli
       def to_param
         @attributes[:id]
       end
+      
+      def id=(_id)
+        @attributes[:id] = _id
+      end
+      
+      def account_id=(_account_id)
+        @attributes[:account_id] = _account_id
+      end
+      
+      def has_children=(_has_children)
+        @attributes[:has_children] = _has_children
+      end
+      
+      def is_primary=(_is_primary)
+        @attributes[:is_primary] = _is_primary
+      end
+      
+      def is_hidden=(_is_hidden)
+        @attributes[:is_hidden] = _is_hidden
+      end
+      
+      def training_group_id=(_training_group_id)
+        @attributes[:training_group_id] = _training_group_id
+      end
+      
+      def type=(_type)
+        @attributes[:type] = _type
+      end
+      
+      def name=(_name)
+        @attributes[:name] = _name
+      end
+      
+      def login=(_login)
+        @attributes[:login] = _login
+      end
 
       private
 

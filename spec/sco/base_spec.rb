@@ -326,7 +326,7 @@ describe Kokopelli::SCO::Base do
       lambda{ Kokopelli::SCO::Base.find("12345") }.should raise_error(Kokopelli::Exception::InternalError, "Failed Request: url(https://admin.acrobat.com/api/xml?action=sco-info&sco-id=12345&session=na1breezaspo5qded43ka7fh)")
     end
 
-    it "should return a single Kokopelli::SCO::Base object if nay results are found" do
+    it "should return a single Kokopelli::SCO::Base object if no results are found" do
       FakeWeb::Mapping.build("login&login=ryan.moran@gmail.com&password=revprep123")
       FakeWeb::Mapping.build("sco-info&sco-id=1030726615")
       @sco = Kokopelli::SCO::Base.find("1030726615")

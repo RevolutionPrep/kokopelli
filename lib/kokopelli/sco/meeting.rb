@@ -99,6 +99,25 @@ module Kokopelli
       def room_url
         "http://" + KOKOPELLI[:domain] + "/" + self.url_path + "/"
       end
+      
+      def archives
+        request = Kokopelli::HTTP::Request::Base.new(expanded_contents_url)
+        request.get!
+        Archive.parse_instances(request.xml.xpath(".//sco"))
+      end
+      
+      def archive_url
+        "http://" + KOKOPELLI[:domain] + "/" + self.archives.first.url_path + "/" unless self.archives.empty?
+      end
+      
+      private
+      
+      def expanded_contents_url
+        url =  "https://" + KOKOPELLI[:domain] + "/api/xml?action=sco-expanded-contents"
+        url << "&sco-id=" + self.id.to_s
+        url << "&filter-icon=archive"
+        url
+      end
 
     end
 

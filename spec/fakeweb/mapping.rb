@@ -65,6 +65,10 @@ module FakeWeb
           FakeWeb::Declaration.sco_contents_1030182052_empty
         when "sco-contents&sco-id=1030182053"
           FakeWeb::Declaration.sco_contents_1030182053_empty
+          
+        # SCO EXPANDED CONTENTS
+        when "sco-expanded-contents&sco-id=1036115664&filter-icon=archive"
+          FakeWeb::Declaration.sco_expanded_contents_1036115664_empty
         else
           raise "No FakeWebMapping could be found for \"#{url_path}\", please include one in the module!"
         end
@@ -180,17 +184,17 @@ module FakeWeb
         when "sco-update&sco-id=1037064220&date-begin=2010-02-04T20:03:38-08:00&date-end=2010-02-04T21:03:38-08:00&description=this%20is%20some%20new%20description&name=TEMPLATE%20New"
           FakeWeb::Declaration.sco_update_TEMPLATE_New
 
-          # SCO DELETE
+        # SCO DELETE
         when "sco-delete&sco-id=1036115664"
           FakeWeb::Declaration.sco_delete_1036115664
         when "sco-delete&sco-id=1037064220"
           FakeWeb::Declaration.sco_delete_1037064220
 
-          # SCO SHORTCUTS
+        # SCO SHORTCUTS
         when "sco-shortcuts"
           FakeWeb::Declaration.sco_shortcuts
 
-          # SCO CONTENTS
+        # SCO CONTENTS
         when "sco-contents&sco-id=1030182076"
           FakeWeb::Declaration.sco_contents_1030182076
         when "sco-contents&sco-id=1030182068"
@@ -228,13 +232,13 @@ module FakeWeb
         when "sco-contents&sco-id=1030182053"
           FakeWeb::Declaration.sco_contents_1030182053
 
-          # SCO INFO
+        # SCO INFO
         when "sco-info&sco-id=12345"
           FakeWeb::Declaration.sco_info_12345
         when "sco-info&sco-id=1030726615"
           FakeWeb::Declaration.sco_info_1030726615
 
-          # PERMISSIONS UPDATE
+        # PERMISSIONS UPDATE
         when "permissions-update&acl-id=1036115664&principal-id=1035814880&permission-id=host"
           FakeWeb::Declaration.permissions_update_1036115664_1035814880
         when "permissions-update&acl-id=1037064220&principal-id=public-access&permission-id=denied"
@@ -242,11 +246,15 @@ module FakeWeb
         when "permissions-update&acl-id=1036115664&principal-id=public-access&permission-id=denied"
           FakeWeb::Declaration.permissions_update_1036115664_public_access
 
-          # PERMISSIONS INFO
+        # PERMISSIONS INFO
         when "permissions-info&acl-id=1036115664&principal-id=1035814880"
           FakeWeb::Declaration.permissions_info_1036115664_1035814880
+          
+        # SCO EXPANDED CONTENTS
+        when "sco-expanded-contents&sco-id=1036115664&filter-icon=archive"
+          FakeWeb::Declaration.sco_expanded_contents_1036115664
 
-          # MAPPING DOESN'T EXIST
+        # MAPPING DOESN'T EXIST
         else
           raise "No FakeWebMapping could be found for \"#{url_path}\", please include one in the module!"
         end
