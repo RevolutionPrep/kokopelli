@@ -82,6 +82,10 @@ module Kokopelli
         @attributes[:email] = _email
       end
 
+      def password=(_pwd)
+        @attributes[:password] = _pwd
+      end
+
       private
 
       def signin_url(password = nil)
