@@ -12,7 +12,7 @@ module Kokopelli
         if args.empty?
           raise Kokopelli::Exception::RecordNotFound, "Couldn't find #{self} without ID"
         else
-          options = args.extract_options!
+          options = args.last.is_a?(Hash) ? args.last : {}
           case args.first
           when :all
             self.find_every(options)
