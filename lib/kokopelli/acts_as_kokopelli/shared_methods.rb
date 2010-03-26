@@ -35,12 +35,7 @@ module Kokopelli
       def before_kokopelli_save
         # this is a before filter that can be called from any of the Kokopellified AR objects
       end
-			
-			# Utility method for making passwords
-		  def choose_random_password(length=8)
-		    universe = (48..57).to_a+(65..90).to_a+(97..122).to_a
-		    (0...length).map {universe[Kernel.rand(universe.size)].chr}.join
-		  end
+
     end
   end
 end

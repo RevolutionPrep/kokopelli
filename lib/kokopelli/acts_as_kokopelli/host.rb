@@ -14,11 +14,12 @@ module Kokopelli
 
       module InstanceMethods
 
+        include Kokopelli::Utilities
+        include Kokopelli::ActsAsKokopelli::SharedMethods
+
         def kokopelli
           @kokopelli ||= (self.new_record? ? Kokopelli::Principal::Host.new : Kokopelli::Principal::Host.find(self.read_attribute(:kokopelli_id).to_s))
         end
-
-        include Kokopelli::ActsAsKokopelli::SharedMethods
 
       end
 

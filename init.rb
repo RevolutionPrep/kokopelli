@@ -26,6 +26,8 @@ require "kokopelli/sco/base"
 require "kokopelli/sco/meeting"
 require "kokopelli/sco/template"
 
+require "kokopelli/utilities"
+
 require "kokopelli/acts_as_kokopelli/shared_methods"
 require "kokopelli/acts_as_kokopelli/guest"
 require "kokopelli/acts_as_kokopelli/host"
