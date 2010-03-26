@@ -1,5 +1,5 @@
 module Kokopelli
-  module ActsAsKokopelli
+  module ActsAs
     module Guest
 
       def self.included(base)
@@ -9,13 +9,12 @@ module Kokopelli
       module ClassMethods
         def acts_as_kokopelli_guest
           send :include, InstanceMethods
+          send :include, Kokopelli::Utilities
+          send :include, Kokopelli::ActsAs::SharedMethods
         end
       end
 
       module InstanceMethods
-
-        include Kokopelli::Utilities
-        include Kokopelli::ActsAsKokopelli::SharedMethods
 
         def kokopelli
           @kokopelli ||= (self.new_record? ? Kokopelli::Principal::Guest.new : Kokopelli::Principal::Guest.find(self.read_attribute(:kokopelli_id).to_s))
@@ -27,4 +26,4 @@ module Kokopelli
   end
 end
 
-ActiveRecord::Base.send :include, Kokopelli::ActsAsKokopelli::Guest
+ActiveRecord::Base.send :include, Kokopelli::ActsAs::Guest

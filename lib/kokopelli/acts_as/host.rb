@@ -1,5 +1,5 @@
 module Kokopelli
-  module ActsAsKokopelli
+  module ActsAs
     module Host
 
       def self.included(base)
@@ -7,15 +7,15 @@ module Kokopelli
       end
 
       module ClassMethods
-        def acts_as_kokopelli_host
+        def acts_as_kokopelli_host(options = {})
           send :include, InstanceMethods
+          send :include, Kokopelli::Utilities
+          send :include, Kokopelli::ActsAs::SharedMethods
+          send :include, Kokopelli::ActsAs::SingletonHost if options[:as] == :singleton
         end
       end
 
       module InstanceMethods
-
-        include Kokopelli::Utilities
-        include Kokopelli::ActsAsKokopelli::SharedMethods
 
         def kokopelli
           @kokopelli ||= (self.new_record? ? Kokopelli::Principal::Host.new : Kokopelli::Principal::Host.find(self.read_attribute(:kokopelli_id).to_s))
@@ -27,4 +27,4 @@ module Kokopelli
   end
 end
 
-ActiveRecord::Base.send :include, Kokopelli::ActsAsKokopelli::Host
+ActiveRecord::Base.send :include, Kokopelli::ActsAs::Host

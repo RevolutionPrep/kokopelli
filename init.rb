@@ -28,8 +28,8 @@ require "kokopelli/sco/template"
 
 require "kokopelli/utilities"
 
-require "kokopelli/acts_as_kokopelli/shared_methods"
-require "kokopelli/acts_as_kokopelli/guest"
-require "kokopelli/acts_as_kokopelli/host"
-require "kokopelli/acts_as_kokopelli/meeting"
-require "kokopelli/acts_as_kokopelli/template"
+require "kokopelli/acts_as/shared_methods"
+require "kokopelli/acts_as/guest"
+require "kokopelli/acts_as/host"
+require "kokopelli/acts_as/meeting"
+require "kokopelli/acts_as/template"

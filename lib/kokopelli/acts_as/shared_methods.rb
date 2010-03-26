@@ -1,10 +1,12 @@
 module Kokopelli
-  module ActsAsKokopelli
+  module ActsAs
     module SharedMethods
 
-      def save(validate = true)
-        self.before_kokopelli_save
-        self.kokopelli.save
+      def save(validate = true, options = {})
+        unless self.class.included_modules.include?(Kokopelli::ActsAs::SingletonHost)
+          self.before_kokopelli_save
+          self.kokopelli.save
+        end
         self.write_attribute(:kokopelli_id, self.kokopelli.id.to_i) if self.kokopelli_id.blank?
         super(validate)
       end

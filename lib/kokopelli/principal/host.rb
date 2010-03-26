@@ -23,7 +23,9 @@ module Kokopelli
       public
 
       def save
+        puts "HOST.SAVE"
         super
+        puts "HOST.SAVE2"
         add_to_meeting_host_group
         self
       end
