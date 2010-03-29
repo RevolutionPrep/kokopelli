@@ -2,13 +2,17 @@ module Kokopelli
   module ActsAs
     module SharedMethods
 
+      def self.append_features(base)
+        base.class_eval "alias_method :ar_save, :save"
+        super
+      end
+
       def save(validate = true, options = {})
-        unless self.class.included_modules.include?(Kokopelli::ActsAs::SingletonHost)
-          self.before_kokopelli_save
-          self.kokopelli.save
-        end
+        puts "SharedMethods#save"
+        self.before_kokopelli_save
+        self.kokopelli.save
         self.write_attribute(:kokopelli_id, self.kokopelli.id.to_i) if self.kokopelli_id.blank?
-        super(validate)
+        ar_save(validate)
       end
 
       def method_missing(m, *args, &block)
