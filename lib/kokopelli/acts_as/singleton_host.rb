@@ -15,7 +15,14 @@ module Kokopelli
       end
 
       def kokopelli
-        RAILS_ENV == "production" ? ProductionHost.instance : DevelopmentHost.instance
+        case RAILS_ENV
+        when "production"
+          ProductionHost.instance
+        when "development"
+          DevelopmentHost.instance
+        when "qa"
+          QAHost.instance
+        end
       end
 
       class ProductionHost < Kokopelli::Principal::Host
@@ -32,6 +39,19 @@ module Kokopelli
       end
 
       class DevelopmentHost < Kokopelli::Principal::Host
+        include Singleton
+
+        def self.instance
+          @kokopelli ||= Kokopelli::Principal::Host.find("936791107")
+          metaclass = class << @kokopelli; self; end 
+          metaclass.send :define_method, :password do
+            KOKOPELLI[:host_password]
+          end
+          @kokopelli
+        end
+      end
+      
+      class QAHost < Kokopelli::Principal::Host
         include Singleton
 
         def self.instance

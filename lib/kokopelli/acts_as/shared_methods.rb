@@ -3,7 +3,7 @@ module Kokopelli
     module SharedMethods
 
       def self.append_features(base)
-        base.class_eval "alias_method :ar_save, :save"
+        base.class_eval "alias_method :ar_save, :save" unless base.method_defined?(:ar_save)
         super
       end
 
