@@ -7,10 +7,11 @@ module Kokopelli
       end
 
       module ClassMethods
-        def acts_as_kokopelli_guest
+        def acts_as_kokopelli_guest(options = {})
           send :include, InstanceMethods
           send :include, Kokopelli::Utilities
           send :include, Kokopelli::ActsAs::SharedMethods
+          send :cache_kokopelli_attr, *options[:cache] if options[:cache]
         end
       end
 

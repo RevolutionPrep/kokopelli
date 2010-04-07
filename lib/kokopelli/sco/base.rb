@@ -20,9 +20,10 @@ module Kokopelli
       end
 
       def self.find_by_id(id, options = {})
+				RAILS_DEFAULT_LOGGER.info "finding sco by id #{id}"
         request = Kokopelli::HTTP::Request::Base.new(find_by_id_url(id))
         request.get!
-        parse_instance(request.xml.xpath(".//sco"))
+        parse_instance(request.xml.xpath(".//sco").first)
       end
 
       def self.find_every_url

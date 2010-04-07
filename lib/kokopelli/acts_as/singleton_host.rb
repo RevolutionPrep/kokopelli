@@ -4,14 +4,19 @@ module Kokopelli
       
       def self.append_features(base)
         base.class_eval "alias_method :ar_save, :save" unless base.method_defined?(:ar_save)
+        base.class_eval "alias_method :ar_destroy, :destroy" unless base.method_defined?(:ar_destroy)
         super
       end
 
       def save(validate = true)
-        puts "SingletonHost#save"
-        self.write_attribute(:password, self.kokopelli.password)
+        self.kokopelli.save
+        self.write_attribute(:kokopelli_password, self.kokopelli.password)
         self.write_attribute(:kokopelli_id, self.kokopelli.id.to_i) if self.kokopelli_id.blank?
         ar_save(validate)
+      end
+      
+      def destroy
+        ar_destroy
       end
 
       def kokopelli
@@ -29,7 +34,7 @@ module Kokopelli
         include Singleton
 
         def self.instance
-          @kokopelli ||= Kokopelli::Principal::Host.find("936149122")
+          @kokopelli ||= Kokopelli::Principal::Host.find(KOKOPELLI[:singleton_id].to_s)
           metaclass = class << @kokopelli; self; end 
           metaclass.send :define_method, :password do
             KOKOPELLI[:host_password]
@@ -42,7 +47,7 @@ module Kokopelli
         include Singleton
 
         def self.instance
-          @kokopelli ||= Kokopelli::Principal::Host.find("936791107")
+          @kokopelli ||= Kokopelli::Principal::Host.find(KOKOPELLI[:singleton_id].to_s)
           metaclass = class << @kokopelli; self; end 
           metaclass.send :define_method, :password do
             KOKOPELLI[:host_password]
@@ -55,7 +60,7 @@ module Kokopelli
         include Singleton
 
         def self.instance
-          @kokopelli ||= Kokopelli::Principal::Host.find("936791107")
+          @kokopelli ||= Kokopelli::Principal::Host.find(KOKOPELLI[:singleton_id].to_s)
           metaclass = class << @kokopelli; self; end 
           metaclass.send :define_method, :password do
             KOKOPELLI[:host_password]

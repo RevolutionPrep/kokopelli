@@ -11,6 +11,7 @@ module Kokopelli
           send :include, InstanceMethods
           send :include, Kokopelli::Utilities
           send :include, Kokopelli::ActsAs::SharedMethods
+          send :cache_kokopelli_attr, *options[:cache] if options[:cache]
           send :include, Kokopelli::ActsAs::SingletonHost if options[:as] == :singleton
         end
       end
