@@ -95,10 +95,6 @@ module Kokopelli
 
       # Meeting-specific methods
       public
-
-      def room_url
-        "http://" + KOKOPELLI[:domain] + "/" + self.url_path + "/"
-      end
       
       def archives
         request = Kokopelli::HTTP::Request::Base.new(expanded_contents_url)
@@ -106,8 +102,8 @@ module Kokopelli
         Archive.parse_instances(request.xml.xpath(".//sco"))
       end
       
-      def archive_url
-        "http://" + KOKOPELLI[:domain] + "/" + self.archives.first.url_path + "/" unless self.archives.empty?
+      def archive_url_path
+        @attributes[:archive_url_path] ||= self.archives.first.url_path unless self.archives.empty?
       end
       
       private

@@ -406,7 +406,7 @@ describe Kokopelli::SCO::Meeting do
     
   end
   
-  describe ".archive_url" do
+  describe ".archive_url_path" do
     
     it "should return nil if .archives has no archives" do
       FakeWeb::Mapping.build("login&login=ryan.moran@gmail.com&password=revprep123")
@@ -425,7 +425,7 @@ describe Kokopelli::SCO::Meeting do
         :description => "this is some description"
       )
       @meeting.save
-      @meeting.archive_url.should be_nil
+      @meeting.archive_url_path.should be_nil
     end
     
     it "should return a proper url if .archives contains any archives" do
@@ -445,8 +445,8 @@ describe Kokopelli::SCO::Meeting do
         :description => "this is some description"
       )
       @meeting.save
-      @meeting.archive_url.should_not be_nil
-      @meeting.archive_url.should eql("http://" + KOKOPELLI[:domain] + "/p38182167/")
+      @meeting.archive_url_path.should_not be_nil
+      @meeting.archive_url_path.should eql("http://" + KOKOPELLI[:domain] + "/p38182167/")
     end
     
   end

@@ -20,20 +20,24 @@ module Kokopelli
       end
 
       def method_missing(m, *args, &block)
-        if self.kokopelli.respond_to?(m)
-          unless args.empty?
-            if args.length > 1
-              self.kokopelli.send(m, *args)
-            else
-              self.kokopelli.send(m, args.first)
-            end
-          else
-            self.kokopelli.send(m)
-          end
-        elsif self.kokopelli.attributes.has_key?(m.to_sym)
-          self.kokopelli.method_missing(m, *args, &block)
-        else
+        if self.attribute_names.include?(m.to_s)
           super
+        else
+          if self.kokopelli.respond_to?(m)
+            unless args.empty?
+              if args.length > 1
+                self.kokopelli.send(m, *args)
+              else
+                self.kokopelli.send(m, args.first)
+              end
+            else
+              self.kokopelli.send(m)
+            end
+          elsif self.kokopelli.attributes.has_key?(m.to_sym)
+            self.kokopelli.method_missing(m, *args, &block)
+          else
+            super
+          end
         end
       end
 
@@ -54,7 +58,13 @@ module Kokopelli
           if column_existence.all?
             args.each do |name|
               define_method name.to_sym do
-                self.read_attribute("kokopelli_#{name}") || self.kokopelli.send("#{name}")
+                unless attribute = self.read_attribute("kokopelli_#{name}")
+                  puts "loading a cached attribute"
+                  attribute = self.kokopelli.send("#{name}")
+                  self.write_attribute("kokopelli_#{name}", attribute)
+                  self.ar_save
+                end
+                attribute
               end
 
               define_method "#{name}=".to_sym do |value|
